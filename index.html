@@ -51,24 +51,12 @@
                     });
                     break;
                 default:
-                fr.toBinary(e.target.files[0], function(err, res) {
-                    if (!err) {
-                        resultElement.innerHTML = res;
-                    }
-                });
+                    fr.toBinary(e.target.files[0], function(err, res) {
+                        if (!err) {
+                            resultElement.innerHTML = res;
+                        }
+                    });
             }
-            var typ = fr.typeOf(e.target.files[0]);
-
-            fr.toText(e.target.files[0], function(err, res) {
-                // console.log("toText", res)
-            });
-            fr.toBlob(e.target.files[0], function(err, res) {
-                // console.log("toBlob", res)
-            });
-            
-            fr.toDataURL(e.target.files[0], function(err, res) {
-                // console.log("toDataURL", res)
-            });
         }
     
         document.getElementById("file-1").addEventListener("change", chooseEvent, false);
