@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>file-reader</title>
+
+    <style>
+        *, *::before, *::after{
+            box-sizing: border-box;
+        }
+        body, html{
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            padding: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>file-reader</h1>
+
+    <input id="file-1" type="file">
+
+    <div style="margin-top: 1rem; border-bottom: 1px solid;"></div>
+
+    <div>
+        <h4>Result</h4>
+        <pre id="result"></pre>
+    </div>
+
+    <script src="dist/file-reader.js"></script>
+    <script>
+
+        var resultElement = document.getElementById("result");
+
+        function chooseEvent(e) {
+            var mime = e.target.files[0] ? e.target.files[0].type : undeinfed;
+
+            switch(mime) {
+                case "text/plain":
+                    fr.toText(e.target.files[0], function(err, res) {
+                        if (!err) {
+                            resultElement.innerHTML = res;
+                        }
+                    });
+                    break;
+                default:
+                fr.toBinary(e.target.files[0], function(err, res) {
+                    if (!err) {
+                        resultElement.innerHTML = res;
+                    }
+                });
+            }
+            var typ = fr.typeOf(e.target.files[0]);
+
+            fr.toText(e.target.files[0], function(err, res) {
+                // console.log("toText", res)
+            });
+            fr.toBlob(e.target.files[0], function(err, res) {
+                // console.log("toBlob", res)
+            });
+            
+            fr.toDataURL(e.target.files[0], function(err, res) {
+                // console.log("toDataURL", res)
+            });
+        }
+    
+        document.getElementById("file-1").addEventListener("change", chooseEvent, false);
+    </script>
+</body>
+
+</html>
