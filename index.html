@@ -39,16 +39,27 @@
 
         var resultElement = document.getElementById("result");
 
-        function chooseEvent(e) {
+        async function chooseEvent(e) {
             var mime = e.target.files[0] ? e.target.files[0].type : undeinfed;
 
             switch(mime) {
                 case "text/plain":
-                    fr.toText(e.target.files[0], function(err, res) {
-                        if (!err) {
-                            resultElement.innerHTML = res;
-                        }
-                    });
+                    // fr.toText(e.target.files[0], null, function(err, res) {
+                    //     if (!err) {
+                    //         resultElement.innerHTML = res;
+                    //     }
+                    // });
+
+                    // fr.promise.toText(e.target.files[0])
+                    //     .then(function(res) {
+                    //         resultElement.innerHTML = res;
+                    //     })
+                    //     .catch(function(err) {
+                    //         console.error(err);
+                    //     })
+
+                    var res = await fr.promise.toText(e.target.files[0])
+                    resultElement.innerHTML = res;
                     break;
                 default:
                     fr.toBinary(e.target.files[0], function(err, res) {

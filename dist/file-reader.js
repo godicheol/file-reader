@@ -3,6 +3,7 @@
 
     var config = {};
     var exports = {};
+    exports.promise = {};
 
     exports.typeOf = function(elem) {
         return {
@@ -18,7 +19,7 @@
         }
     }
 
-    exports.toText = function(file, cb) {
+    exports.toText = function(file, encoding, cb) {
         if (!file instanceof Blob) {
             return cb(new Error("Parameter must be a Blob"));
         }
@@ -29,7 +30,7 @@
         reader.onerror = function(e) {
             return cb(new Error("load error"));
         };
-        reader.readAsText(file, "UTF-8");
+        reader.readAsText(file, encoding || "UTF-8");
     }
 
     exports.toBlob = function(file, cb) {
@@ -75,6 +76,82 @@
         reader.readAsBinaryString(file);
     }
 
+    exports.promise.toText = function(file, encoding) {
+        return new Promise(function(resolve, reject) {
+            if (!file instanceof Blob) {
+                reject(new Error("Parameter must be a Blob"));
+                return false;
+            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                resolve(e.target.result);
+                return false;
+            };
+            reader.onerror = function(e) {
+                reject(new Error("load error"));
+                return false;
+            };
+            reader.readAsText(file, encoding || "UTF-8");
+        });
+    }
+
+    exports.promise.toBlob = function(file) {
+        return new Promise(function(resolve, reject) {
+            if (!file instanceof Blob) {
+                reject(new Error("Parameter must be a Blob"));
+                return false;
+            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var blob = new Blob([new Uint8Array(e.target.result)], {type: file.type });
+                resolve(blob);
+                return false;
+            };
+            reader.onerror = function(e) {
+                reject(new Error("load error"));
+                return false;
+            };
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    exports.promise.toDataURL = function(file) {
+        return new Promise(function(resolve, reject) {
+            if (!file instanceof Blob) {
+                reject(new Error("Parameter must be a Blob"));
+                return false;
+            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                resolve(e.target.result);
+                return false;
+            };
+            reader.onerror = function(e) {
+                reject(new Error("load error"));
+                return false;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    exports.promise.toBinary = function(file) {
+        return new Promise(function(resolve, reject) {
+            if (!file instanceof Blob) {
+                reject(new Error("Parameter must be a Blob"));
+                return false;
+            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                resolve(e.target.result);
+                return false;
+            };
+            reader.onerror = function(e) {
+                reject(new Error("load error"));
+                return false;
+            };
+            reader.readAsBinaryString(file);
+        });
+    }
 
     if (typeof(window.fr) === "undefined") {
         window.fr = exports;
