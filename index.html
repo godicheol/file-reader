@@ -44,13 +44,13 @@
 
             switch(mime) {
                 case "text/plain":
-                    // fr.toText(e.target.files[0], null, function(err, res) {
+                    // fileReader.toText(e.target.files[0], null, function(err, res) {
                     //     if (!err) {
                     //         resultElement.innerHTML = res;
                     //     }
                     // });
 
-                    // fr.promise.toText(e.target.files[0])
+                    // fileReader.promise.toText(e.target.files[0])
                     //     .then(function(res) {
                     //         resultElement.innerHTML = res;
                     //     })
@@ -58,11 +58,11 @@
                     //         console.error(err);
                     //     })
 
-                    var res = await fr.promise.toText(e.target.files[0])
+                    var res = await fileReader.promise.toText(e.target.files[0])
                     resultElement.innerHTML = res;
                     break;
                 default:
-                    fr.toBinary(e.target.files[0], function(err, res) {
+                fileReader.toBinary(e.target.files[0], function(err, res) {
                         if (!err) {
                             resultElement.innerHTML = res;
                         }

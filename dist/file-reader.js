@@ -153,7 +153,7 @@
         });
     }
 
-    if (typeof(window.fr) === "undefined") {
-        window.fr = exports;
+    if (typeof(window.fileReader) === "undefined") {
+        window.fileReader = exports;
     }
 })();
