@@ -40,17 +40,35 @@
         var resultElement = document.getElementById("result");
 
         async function chooseEvent(e) {
-            var mime = e.target.files[0] ? e.target.files[0].type : undeinfed;
+            var file = e.target.files[0];
+            if (!file) {
+                return false;
+            }
+            var mime = file;
+
+            // stream
+            // var seq = 0;
+            // fileReader.stream.toBinary(file, function(err, res, end) {
+            //     if (err) {
+            //         return false;
+            //     }
+            //     if (end) {
+            //         console.log("end");
+            //     } else {
+            //         console.log("load "+seq, res.length > 10 ? res.slice(0, 10) + "..." : res);
+            //         seq++;
+            //     }
+            // });
 
             switch(mime) {
                 case "text/plain":
-                    // fileReader.toText(e.target.files[0], null, function(err, res) {
+                    // fileReader.toText(file, null, function(err, res) {
                     //     if (!err) {
                     //         resultElement.innerHTML = res;
                     //     }
                     // });
 
-                    // fileReader.promise.toText(e.target.files[0])
+                    // fileReader.promise.toText(file)
                     //     .then(function(res) {
                     //         resultElement.innerHTML = res;
                     //     })
@@ -58,11 +76,11 @@
                     //         console.error(err);
                     //     })
 
-                    var res = await fileReader.promise.toText(e.target.files[0])
+                    var res = await fileReader.promise.toText(file)
                     resultElement.innerHTML = res;
                     break;
                 default:
-                fileReader.toBinary(e.target.files[0], function(err, res) {
+                fileReader.toBinary(file, function(err, res) {
                         if (!err) {
                             resultElement.innerHTML = res;
                         }
